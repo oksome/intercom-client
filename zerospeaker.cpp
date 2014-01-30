@@ -22,7 +22,7 @@ void ZeroSpeaker::playMPD()
     printf ("Connecting to hello world server...\n");
     void *context = zmq_ctx_new ();
     void *requester = zmq_socket (context, ZMQ_REQ);
-    zmq_connect (requester, "tcp://relay.intercom:5556");
+    zmq_connect (requester, "tcp://intercom:5556");
     zmq_send(requester, "do:mpd.play {}", 14, 0);
 
     char buffer [4];
@@ -36,7 +36,7 @@ void ZeroSpeaker::pauseMPD()
     printf ("Connecting to hello world server...\n");
     void *context = zmq_ctx_new ();
     void *requester = zmq_socket (context, ZMQ_REQ);
-    zmq_connect (requester, "tcp://relay.intercom:5556");
+    zmq_connect (requester, "tcp://intercom:5556");
     zmq_send(requester, "do:mpd.pause {}", 15, 0);
 
     char buffer [4];

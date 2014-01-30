@@ -21,19 +21,23 @@ HEADERS += \
     zerospeaker.h
 
 # ZeroMQ
-#unix: LIBS += -L/usr/local/Cellar/zeromq/3.2.4/lib/ -lzmq
+macx {
+    LIBS += -L/usr/local/Cellar/zeromq/3.2.4/lib/ -lzmq
 
-#INCLUDEPATH += /usr/local/Cellar/zeromq/3.2.4/include
-#DEPENDPATH += /usr/local/Cellar/zeromq/3.2.4/include
+    INCLUDEPATH += /usr/local/Cellar/zeromq/3.2.4/include
+    DEPENDPATH += /usr/local/Cellar/zeromq/3.2.4/include
 
-#unix: PRE_TARGETDEPS += /usr/local/Cellar/zeromq/3.2.4/lib/libzmq.a
+    PRE_TARGETDEPS += /usr/local/Cellar/zeromq/3.2.4/lib/libzmq.a
+}
 
 # ZeroMQ ARM
-android: LIBS += -L$$PWD/zeromq-android/lib/ -lzmq
+android {
+    LIBS += -L$$PWD/zeromq-android/lib/ -lzmq
 
-INCLUDEPATH += $$PWD/zeromq-android/include
-DEPENDPATH += $$PWD/zeromq-android/include
+    INCLUDEPATH += $$PWD/zeromq-android/include
+    DEPENDPATH += $$PWD/zeromq-android/include
 
-android: PRE_TARGETDEPS += $$PWD/zeromq-android/lib/libzmq.la
+    PRE_TARGETDEPS += $$PWD/zeromq-android/lib/libzmq.la
+}
 
 OTHER_FILES +=
