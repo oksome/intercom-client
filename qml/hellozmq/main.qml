@@ -25,7 +25,6 @@ Rectangle {
             onClicked: {
                 zerospeaker.printMessage("Hello")
                 zerospeaker.playMPD()
-    //            Qt.quit();
             }
         }
     }
@@ -47,8 +46,8 @@ Rectangle {
             onClicked: {
                 zerospeaker.pauseMPD()
             }
+            onPressed: parent.color = '#AAAACC'
+            onReleased: parent.color = '#AAAAFF'
         }
     }
-
-
 }
