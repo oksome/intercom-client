@@ -4,9 +4,13 @@
 #include <QObject>
 #include <QDebug>
 
+#include "zerosender.h"
+
 class ZeroSpeaker : public QObject
 {
     Q_OBJECT
+private:
+    ZeroSender sender;
 public:
     explicit ZeroSpeaker(QObject *parent = 0);
     Q_INVOKABLE void printMessage(QString txt);

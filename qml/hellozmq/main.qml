@@ -2,18 +2,25 @@ import QtQuick 2.0
 import ZeroSpeaker 1.0
 
 Rectangle {
-    width: auto
-    height: auto
+
+    property real foo: 0.1
 
     ZeroSpeaker {
         id: zerospeaker
     }
 
     Rectangle {
+        height: parent.height * foo
+        width: parent.width
+        color: 'green'
+    }
+
+    Rectangle {
         id: wakeup_button
         color: '#400000'
-        height: parent.height / 2
+        height: parent.height * (0.5 - foo/2)
         width: parent.width
+        y: parent.height * foo
 
         Text {
             text: qsTr("Wake Up !")
@@ -36,9 +43,9 @@ Rectangle {
     Rectangle {
         id: sleep_button
         color: '#000040'
-        height: parent.height / 2
+        height: parent.height * (0.5 - foo/2)
         width: parent.width
-        y: parent.height / 2
+        y: parent.height * (0.5 + foo/2)
 
         Text {
             text: qsTr("Goto sleep...")

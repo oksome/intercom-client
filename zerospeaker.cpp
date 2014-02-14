@@ -1,8 +1,10 @@
 #include "zerospeaker.h"
+#include "zerosender.h"
 
 ZeroSpeaker::ZeroSpeaker(QObject *parent) :
     QObject(parent)
 {
+    this->sender = ZeroSender();
 }
 
 void ZeroSpeaker::printMessage(QString txt)
@@ -17,67 +19,41 @@ void ZeroSpeaker::printMessage(QString txt)
 #include <stdio.h>
 #include <unistd.h>
 
+
 void ZeroSpeaker::playMPD()
 {
-    printf ("Connecting to hello world server...\n");
-    void *context = zmq_ctx_new ();
-    void *requester = zmq_socket (context, ZMQ_REQ);
-    zmq_connect (requester, "tcp://intercom:5556");
-    zmq_send(requester, "do:mpd.play {}", 14, 0);
+    this->sender.send(QString("do:mpd.play"), QString("{}"));
 
-    requester = zmq_socket (context, ZMQ_REQ);
-    zmq_connect (requester, "tcp://intercom:5556");
-    zmq_send(requester, "do:arduino.switch {\"plug\": \"00100\", \"action\": \"on\", \"group\": \"00001\"}", 69, 0);
+    this->sender.send(QString("do:arduino.switch"),
+                      QString("{\"plug\": \"10000\", \"action\": \"on\", \"group\": \"00001\"}"));
 
-    requester = zmq_socket (context, ZMQ_REQ);
-    zmq_connect (requester, "tcp://intercom:5556");
-    zmq_send(requester, "do:arduino.switch {\"plug\": \"10000\", \"action\": \"on\", \"group\": \"00001\"}", 69, 0);
+    this->sender.send(QString("do:arduino.switch"),
+                      QString("{\"plug\": \"00010\", \"action\": \"on\", \"group\": \"00001\"}"));
 
-    requester = zmq_socket (context, ZMQ_REQ);
-    zmq_connect (requester, "tcp://intercom:5556");
-    zmq_send(requester, "do:arduino.switch {\"plug\": \"00010\", \"action\": \"on\", \"group\": \"00001\"}", 69, 0);
+    this->sender.send(QString("do:arduino.switch"),
+                      QString("{\"plug\": \"01000\", \"action\": \"on\", \"group\": \"00001\"}"));
 
-    requester = zmq_socket (context, ZMQ_REQ);
-    zmq_connect (requester, "tcp://intercom:5556");
-    zmq_send(requester, "do:arduino.switch {\"plug\": \"01000\", \"action\": \"on\", \"group\": \"00001\"}", 69, 0);
-
-    char buffer [4];
-    zmq_recv (requester, buffer, 4, 0);
-    buffer[3] = '\0';
-    qDebug() << "Received response [" << buffer << "]";
+    this->sender.send(QString("do:arduino.switch"),
+                      QString("{\"plug\": \"00100\", \"action\": \"on\", \"group\": \"00001\"}"));
 }
 
 void ZeroSpeaker::pauseMPD()
 {
-    printf ("Connecting to hello world server...\n");
+    this->sender.send(QString("do:mpd.pause"), QString("{}"));
 
-    void *context = zmq_ctx_new ();
-    void *requester = zmq_socket (context, ZMQ_REQ);
-    zmq_connect (requester, "tcp://intercom:5556");
-    zmq_send(requester, "do:mpd.pause {}", 15, 0);
+    this->sender.send(QString("do:pc.suspend"), QString("{}"));
 
-    context = zmq_ctx_new ();
-    requester = zmq_socket (context, ZMQ_REQ);
-    zmq_connect (requester, "tcp://intercom:5556");
-    zmq_send(requester, "do:arduino.switch {\"plug\": \"00100\", \"action\": \"off\", \"group\": \"00001\"}", 70, 0);
+    this->sender.send(QString("do:arduino.switch"),
+                      QString("{\"plug\": \"10000\", \"action\": \"off\", \"group\": \"00001\"}"));
 
-    context = zmq_ctx_new ();
-    requester = zmq_socket (context, ZMQ_REQ);
-    zmq_connect (requester, "tcp://intercom:5556");
-    zmq_send(requester, "do:arduino.switch {\"plug\": \"10000\", \"action\": \"off\", \"group\": \"00001\"}", 70, 0);
+    this->sender.send(QString("do:arduino.switch"),
+                      QString("{\"plug\": \"00010\", \"action\": \"off\", \"group\": \"00001\"}"));
 
-    context = zmq_ctx_new ();
-    requester = zmq_socket (context, ZMQ_REQ);
-    zmq_connect (requester, "tcp://intercom:5556");
-    zmq_send(requester, "do:arduino.switch {\"plug\": \"00010\", \"action\": \"off\", \"group\": \"00001\"}", 70, 0);
+    this->sender.send(QString("do:arduino.switch"),
+                      QString("{\"plug\": \"00100\", \"action\": \"off\", \"group\": \"00001\"}"));
 
-    context = zmq_ctx_new ();
-    requester = zmq_socket (context, ZMQ_REQ);
-    zmq_connect (requester, "tcp://intercom:5556");
-    zmq_send(requester, "do:arduino.switch {\"plug\": \"01000\", \"action\": \"off\", \"group\": \"00001\"}", 70, 0);
-
-    char buffer [4];
-    zmq_recv (requester, buffer, 4, 0);
-    buffer[3] = '\0';
-    qDebug() << "Received response [" << buffer << "]";
+    this->sender.send(QString("do:arduino.switch"),
+                      QString("{\"plug\": \"01000\", \"action\": \"off\", \"group\": \"00001\"}"));
 }
+
+
