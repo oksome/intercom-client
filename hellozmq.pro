@@ -34,6 +34,10 @@ macx {
     PRE_TARGETDEPS += /usr/local/Cellar/zeromq/3.2.4/lib/libzmq.a
 }
 
+linux:!android{
+    LIBS += -lzmq
+}
+
 # ZeroMQ ARM
 android {
     LIBS += -L$$PWD/zeromq-android/lib/ -lzmq

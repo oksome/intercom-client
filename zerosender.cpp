@@ -19,7 +19,7 @@ void ZeroSender::send(QString topic, QString msg)
     QByteArray payload = payload_str.toLocal8Bit();
     qDebug() << "payload " << payload << "\n";
 
-    printf("Connecting to the Intercom broker...\n");
+    qInfo() << "Connecting to the Intercom broker...";
     void *requester = zmq_socket (this->context, ZMQ_REQ);
     zmq_connect(requester, "tcp://spirit:5556");
     zmq_send(requester, payload.data(), payload.length(), 0);
